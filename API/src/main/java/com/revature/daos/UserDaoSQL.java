@@ -39,8 +39,7 @@ public class UserDaoSQL implements UserDao {
 			return ps.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-//		e.printStackTrace();
+			e.printStackTrace();
 			return 0;
 		}
 	}
@@ -57,8 +56,7 @@ public class UserDaoSQL implements UserDao {
 			return users;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -77,7 +75,7 @@ public class UserDaoSQL implements UserDao {
 				return null;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -94,8 +92,7 @@ public class UserDaoSQL implements UserDao {
 				return null;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			e.printStackTrace();
 			return null;
 		}
 
@@ -115,8 +112,7 @@ public class UserDaoSQL implements UserDao {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			e.printStackTrace();
 			return null;
 		}
 	}

@@ -7,14 +7,14 @@ public class Reimbursement {
 	private long reimb_resolved;
 	private String reimb_description;
 	private String reimb_receipt;
-	private int reimb_author;
-	private int reimb_resolver;
-	private int reimb_status_id;
-	private int reimb_type_id;
+	private String reimb_author;
+	private String reimb_resolver;
+	private String reimb_status;
+	private String reimb_type;
 
 	public Reimbursement(int reimb_id, double reimb_amount, long reimb_submitted, long reimb_resolved,
-			String reimb_description, String reimb_receipt, int reimb_author, int reimb_resolver, int reimb_status_id,
-			int reimb_type_id) {
+			String reimb_description, String reimb_receipt, String reimb_author, String reimb_resolver,
+			String reimb_status, String reimb_type) {
 		super();
 		this.reimb_id = reimb_id;
 		this.reimb_amount = reimb_amount;
@@ -24,8 +24,8 @@ public class Reimbursement {
 		this.reimb_receipt = reimb_receipt;
 		this.reimb_author = reimb_author;
 		this.reimb_resolver = reimb_resolver;
-		this.reimb_status_id = reimb_status_id;
-		this.reimb_type_id = reimb_type_id;
+		this.reimb_status = reimb_status;
+		this.reimb_type = reimb_type;
 	}
 
 	public Reimbursement() {
@@ -81,36 +81,36 @@ public class Reimbursement {
 		this.reimb_receipt = reimb_receipt;
 	}
 
-	public int getReimb_author() {
+	public String getReimb_author() {
 		return reimb_author;
 	}
 
-	public void setReimb_author(int reimb_author) {
+	public void setReimb_author(String reimb_author) {
 		this.reimb_author = reimb_author;
 	}
 
-	public int getReimb_resolver() {
+	public String getReimb_resolver() {
 		return reimb_resolver;
 	}
 
-	public void setReimb_resolver(int reimb_resolver) {
+	public void setReimb_resolver(String reimb_resolver) {
 		this.reimb_resolver = reimb_resolver;
 	}
 
-	public int getReimb_status_id() {
-		return reimb_status_id;
+	public String getReimb_status() {
+		return reimb_status;
 	}
 
-	public void setReimb_status_id(int reimb_status_id) {
-		this.reimb_status_id = reimb_status_id;
+	public void setReimb_status(String reimb_status) {
+		this.reimb_status = reimb_status;
 	}
 
-	public int getReimb_type_id() {
-		return reimb_type_id;
+	public String getReimb_type() {
+		return reimb_type;
 	}
 
-	public void setReimb_type_id(int reimb_type_id) {
-		this.reimb_type_id = reimb_type_id;
+	public void setReimb_type(String reimb_type) {
+		this.reimb_type = reimb_type;
 	}
 
 	@Override
@@ -120,15 +120,15 @@ public class Reimbursement {
 		long temp;
 		temp = Double.doubleToLongBits(reimb_amount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + reimb_author;
+		result = prime * result + ((reimb_author == null) ? 0 : reimb_author.hashCode());
 		result = prime * result + ((reimb_description == null) ? 0 : reimb_description.hashCode());
 		result = prime * result + reimb_id;
 		result = prime * result + ((reimb_receipt == null) ? 0 : reimb_receipt.hashCode());
 		result = prime * result + (int) (reimb_resolved ^ (reimb_resolved >>> 32));
-		result = prime * result + reimb_resolver;
-		result = prime * result + reimb_status_id;
+		result = prime * result + ((reimb_resolver == null) ? 0 : reimb_resolver.hashCode());
+		result = prime * result + ((reimb_status == null) ? 0 : reimb_status.hashCode());
 		result = prime * result + (int) (reimb_submitted ^ (reimb_submitted >>> 32));
-		result = prime * result + reimb_type_id;
+		result = prime * result + ((reimb_type == null) ? 0 : reimb_type.hashCode());
 		return result;
 	}
 
@@ -143,7 +143,10 @@ public class Reimbursement {
 		Reimbursement other = (Reimbursement) obj;
 		if (Double.doubleToLongBits(reimb_amount) != Double.doubleToLongBits(other.reimb_amount))
 			return false;
-		if (reimb_author != other.reimb_author)
+		if (reimb_author == null) {
+			if (other.reimb_author != null)
+				return false;
+		} else if (!reimb_author.equals(other.reimb_author))
 			return false;
 		if (reimb_description == null) {
 			if (other.reimb_description != null)
@@ -159,13 +162,22 @@ public class Reimbursement {
 			return false;
 		if (reimb_resolved != other.reimb_resolved)
 			return false;
-		if (reimb_resolver != other.reimb_resolver)
+		if (reimb_resolver == null) {
+			if (other.reimb_resolver != null)
+				return false;
+		} else if (!reimb_resolver.equals(other.reimb_resolver))
 			return false;
-		if (reimb_status_id != other.reimb_status_id)
+		if (reimb_status == null) {
+			if (other.reimb_status != null)
+				return false;
+		} else if (!reimb_status.equals(other.reimb_status))
 			return false;
 		if (reimb_submitted != other.reimb_submitted)
 			return false;
-		if (reimb_type_id != other.reimb_type_id)
+		if (reimb_type == null) {
+			if (other.reimb_type != null)
+				return false;
+		} else if (!reimb_type.equals(other.reimb_type))
 			return false;
 		return true;
 	}
@@ -175,7 +187,7 @@ public class Reimbursement {
 		return "Reimbursement [reimb_id=" + reimb_id + ", reimb_amount=" + reimb_amount + ", reimb_submitted="
 				+ reimb_submitted + ", reimb_resolved=" + reimb_resolved + ", reimb_description=" + reimb_description
 				+ ", reimb_receipt=" + reimb_receipt + ", reimb_author=" + reimb_author + ", reimb_resolver="
-				+ reimb_resolver + ", reimb_status_id=" + reimb_status_id + ", reimb_type_id=" + reimb_type_id + "]";
+				+ reimb_resolver + ", reimb_status=" + reimb_status + ", reimb_type=" + reimb_type + "]";
 	}
 
 }

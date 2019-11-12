@@ -1,5 +1,6 @@
 package com.revature.daos;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,32 +26,32 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 		long rsReimbSubmitted = rs.getLong("reimb_submitted");
 		long rsReimbResolved = rs.getLong("reimb_resolved");
 		String rsReimbDescription = rs.getString("reimb_description");
-		String rsReimbReceipt = rs.getString("reimb_receipt");
+		//Blob rsReimbReceipt = rs.Blob("reimb_receipt"); -- CHANGED IT TO NULL
 		int rsReimbAuthor = rs.getInt("reimb_author");
 		int rsReimbResolver = rs.getInt("reimb_resolver");
 		int rsReimbStatusId = rs.getInt("reimb_status_id");
 		int rsReimbTypeId = rs.getInt("reimb_type_id");
 
 		return new Reimbursement(rsReimbId, rsReimbAmount, rsReimbSubmitted, rsReimbResolved, rsReimbDescription,
-				rsReimbReceipt, rsReimbAuthor, rsReimbResolver, rsReimbStatusId, rsReimbTypeId);
+				null, rsReimbAuthor, rsReimbResolver, rsReimbStatusId, rsReimbTypeId);
 	}
 
 	@Override
 	public int saveReimbursement(Reimbursement r) {
 		try (Connection c = ConnectionUtil.getConnection()) {
 			String sql = ("INSERT INTO ERS_REIMBURSEMENT (reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id)"
-					+ "VALUES (reimb_id_seq.nextval, ?, ?, ?, ?, ?, 2, 1, 3, 4)");
+					+ "VALUES (reimb_id_seq.nextval, ?, ?, ?, ?, null, ?, ?, ?, ?)");
 
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setDouble(1, r.getReimb_amount());
 			ps.setLong(2, r.getReimb_submitted());
 			ps.setLong(3, r.getReimb_resolved());
 			ps.setString(4, r.getReimb_description());
-			ps.setString(5, r.getReimb_receipt());
-			ps.setInt(6, r.getReimb_author());
-			ps.setInt(7, r.getReimb_resolver());
-			ps.setInt(8, r.getReimb_status_id());
-			ps.setInt(9, r.getReimb_type_id());
+			//ps.setString(5, r.getReimb_receipt());
+			ps.setInt(5, r.getReimb_author());
+			ps.setInt(6, r.getReimb_resolver());
+			ps.setInt(7, r.getReimb_status_id());
+			ps.setInt(8, r.getReimb_type_id());
 			return ps.executeUpdate();
 
 		} catch (Exception e) {
@@ -62,6 +63,7 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 	@Override
 	public List<Reimbursement> findAll() {
 		try (Connection c = ConnectionUtil.getConnection()) {
+			System.out.println("Before SQL");
 			String sql = "SELECT * FROM ers_reimbursement";
 			PreparedStatement ps = c.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();

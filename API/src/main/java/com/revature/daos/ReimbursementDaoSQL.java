@@ -175,10 +175,11 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 	}
 
 	@Override
-	public List<Reimbursement> findByUser() {
+	public List<Reimbursement> findByUser(String username) {
 		try(Connection c = ConnectionUtil.getConnection()) {
 			String sql = "SELECT * FROM ers_reimbursement WHERE reimb_author = ?"; 
 			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, findUserId(username));
 			ResultSet rs = ps.executeQuery();
 			
 			List<Reimbursement> userReimbursements = new ArrayList<Reimbursement>();

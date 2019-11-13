@@ -18,7 +18,7 @@ public interface ReimbursementDao {
 	List<Reimbursement> findPending();
 	
 	//View Past Tickets
-	List<Reimbursement> findByUser();
+	List<Reimbursement> findByUser(String username);
 	
 	//Change Status
 	void changeRequestStatus(int statusId, int reimbId);

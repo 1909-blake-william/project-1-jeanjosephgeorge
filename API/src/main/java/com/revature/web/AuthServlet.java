@@ -21,7 +21,7 @@ public class AuthServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //		System.out.println(req.getRequestURL());
-		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		resp.addHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
 		resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
 		resp.addHeader("Access-Control-Allow-Headers",
 				"Origin, Methods, Credentials, X-Requested-With, Content-Type, Accept");
@@ -41,15 +41,18 @@ public class AuthServlet extends HttpServlet {
 			String password = credentials.getPassword();
 			User loggedInUser = userDao.findByUsernameAndPassword(username, password);
 
-			System.out.println(username + ": " + password);
+			System.out.println("\n"+username + ": " + password);
 
 			if (loggedInUser == null) {
 				resp.setStatus(401); // Unauthorized status code
 				return;
 			} else {
 				resp.setStatus(201);
-				req.getSession().setAttribute("user", loggedInUser);
+				System.out.println("\n\n:: Inside Login DoPost :: Status Code 201 ::");
+				req.getSession(true).setAttribute("user", loggedInUser);
 				resp.getWriter().write(om.writeValueAsString(loggedInUser));
+				System.out.println(om.writeValueAsString(loggedInUser));
+				resp.setStatus(201);
 				return;
 			}
 		}
@@ -57,9 +60,11 @@ public class AuthServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if ("/PokemonApi/auth/session-user".equals(req.getRequestURI())) {
-			ObjectMapper om = new ObjectMapper();
-			String json = om.writeValueAsString(req.getSession().getAttribute("user"));
+		if ("/ExpenseReimbursement/login".equals(req.getRequestURI())) {
+			String json = om.writeValueAsString(req.getSession(false).getAttribute("user"));
+			System.out.println("\n\n:: Inside Login DoGet ::");
+			System.out.println(json);
+			resp.addHeader("content-type", "application/json");
 			resp.getWriter().write(json);
 		}
 	}

@@ -163,8 +163,10 @@ function AddSubmission(){
             if(response.status == 201){
                 window.location.href = "http://127.0.0.1:5500/API/src/main/webapp/viewsubmissions.html";
             } else {
-                alert("Nope. Try Again.");
+                // alert("Nope. Try Again.");
                 document.getElementById("expenseForm").reset();
+                window.location.href = "http://127.0.0.1:5500/API/src/main/webapp/viewsubmissions.html";
+
             }
         })
         .then(data => console.log(data))

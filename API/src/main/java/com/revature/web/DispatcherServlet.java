@@ -37,6 +37,7 @@ public class DispatcherServlet extends HttpServlet {
 			// Write the JSON Response and return
 			try {
 				resp.getOutputStream().write(mapper.writeValueAsBytes(response));
+				resp.setStatus(201);
 			} catch (IOException e) {
 				// The Collections.singletonMap method I use here is a quick way to marshal a
 				// JSON object

@@ -21,6 +21,6 @@ public interface ReimbursementDao {
 	List<Reimbursement> findByUser(String username);
 	
 	//Change Status
-	void changeRequestStatus(int statusId, int reimbId);
+	//void changeRequestStatus(int statusId, int reimbId);
 		
 }

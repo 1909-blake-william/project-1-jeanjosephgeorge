@@ -6,30 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Requests View</title>
+    <title>Pending View</title>
   </head>
-  <body onload="ViewSubmissions()">
+  <body onload="ViewAllSubmissions()">
     <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <a class="navbar-brand" href="http://127.0.0.1:5500/API/src/main/webapp/home.html"> Welcome, <span id="firstName"></span>!</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="http://127.0.0.1:5500/API/src/main/webapp/viewsubmissions.html">View All Submissions</a>
-                <a class="nav-item nav-link" href="http://127.0.0.1:5500/API/src/main/webapp/viewpending.html">View Pending</a>
-                <a class="nav-item nav-link" href="http://127.0.0.1:5500/API/src/main/webapp/addrequest.html">Add Request</a>
-                <a class="nav-item nav-link" href="http://127.0.0.1:5500/API/src/main/webapp/index.html">Logout</a>
-            </div>
+    <a class="navbar-brand" href="http://127.0.0.1:5500/API/src/main/webapp/home.html"> Welcome, <span id="firstName"></span>!</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="http://127.0.0.1:5500/API/src/main/webapp/viewsubmissions.html">View All Submissions</a>
+            <a class="nav-item nav-link" href="http://127.0.0.1:5500/API/src/main/webapp/viewpending.html">View Pending</a>
+            <a class="nav-item nav-link" href="http://127.0.0.1:5500/API/src/main/webapp/addrequest.html">Add Request</a>
+            <a class="nav-item nav-link" href="http://127.0.0.1:5500/API/src/main/webapp/index.html">Logout</a>
         </div>
-        </nav>
-    <p style="text-align: center; margin-top: 10px;">This is the current list of <strong>ALL</strong> your submissions</p>
-    <table id="submissionsTable" class="table">
+    </div>
+    </nav>
+    <p style="text-align: center; margin-top:10px;">This is the list of <strong>Pending Requests</strong></p>
+    <table class="table">
         <thead class="thead-dark">
           <tr>
             <th scope="col">Request ID</th>
             <th scope="col">Name</th>
-            <th scope="col">Amount</th>
             <th scope="col">Date Submitted</th>
             <th scope="col">Date Resolved</th>
             <th scope="col">Description</th>
@@ -38,8 +37,8 @@
             
           </tr>
         </thead>
-        <tbody id="tableBody">
-
+        <tbody>
+        
 
         </tbody>
       </table>

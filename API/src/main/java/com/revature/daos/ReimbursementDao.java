@@ -11,6 +11,8 @@ public interface ReimbursementDao {
 	//Create new reimbursement
 	int saveReimbursement(Reimbursement r);
 	
+	int findUserId(String username);
+	
 	//LIST ALL
 	List<Reimbursement> findAll();
 	

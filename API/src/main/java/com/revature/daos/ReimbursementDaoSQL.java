@@ -29,8 +29,11 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 		long rsReimbResolved = rs.getLong("reimb_resolved");
 		String rsReimbDescription = rs.getString("reimb_description");
 		//String rsReimbReceipt = rs.getString("reimb_receipt");
+		System.out.println("Inside Extract Reimbursemnt");
 		String rsReimbAuthor = findUsername(rs.getInt("reimb_author"));
+		System.out.println("reimb author is: " + rsReimbAuthor);
 		String rsReimbResolver = findUsername(rs.getInt("reimb_resolver"));
+		System.out.println("reimb resolver is: "+rsReimbResolver);
 		String rsReimbStatus = findStatus(rs.getInt("reimb_status_id"));
 		String rsReimbType = findType(rs.getInt("reimb_type_id"));
 		return new Reimbursement(rsReimbId, rsReimbAmount, rsReimbSubmitted, rsReimbResolved, rsReimbDescription, null, rsReimbAuthor, rsReimbResolver, rsReimbStatus, rsReimbType);
@@ -63,14 +66,16 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			System.out.println("Inside findUsername");			
+			
+			System.out.println("Inside findUsername X");			
 			rs.next();
 			String username = rs.getString("username");
-			System.out.println(username);
+			System.out.println("Username X:"+username);
 			return username;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println("EMPTY Name");
+			//e.printStackTrace();
+			//System.out.println(e.getMessage());
 			return null;
 		}
 	}
@@ -256,7 +261,6 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 		}
 	}
 
-	@Override
 	public void changeRequestStatus(int statusId, int reimbId) {
 		try(Connection c = ConnectionUtil.getConnection()) {
 			String sql = "UPDATE ers_reimbursement SET reimb_status_id = ? WHERE reimb_id = ?";

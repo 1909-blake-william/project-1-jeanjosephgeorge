@@ -89,12 +89,20 @@ function ViewSubmissions(){
                                         <td>${reimb.reimb_amount}</td>
                                         <td>${reimb.reimb_submitted}</td>
                                         <td>${reimb.reimb_resolved}</td>
+                                        <td>${reimb.reimb_resolver}</td>
                                         <td>${reimb.reimb_description}</td>
                                         <td>${reimb.reimb_type}</td>
                                         <td>${reimb.reimb_status}</td>
+                                        <td>
+                                            <div style="" class="btn-group" role="group" aria-label="Table-buttons">
+                                                <button type="button" class="btn btn-success">Approve</button>
+                                                <button type="button" class="btn btn-danger">Deny</button>
+                                            </div>
+                                        </td>
                                         </tr>
+                                        
                                     `
-                                })}
+                                }).join('')}
                                 `
         })
         .catch(error => {

@@ -1,9 +1,12 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class User {
 
 	private int ers_users_id;
 	private String username;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	private String user_first_name;
 	private String user_last_name;

@@ -33,22 +33,18 @@ public class AuthServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("uri = " + req.getRequestURI());
-		System.out.println("HERE");
 		if ("/ExpenseReimbursement/login".equals(req.getRequestURI())) {
 
 			User credentials = (User) om.readValue(req.getReader(), User.class);
 			String username = credentials.getUsername();
 			String password = credentials.getPassword();
 			User loggedInUser = userDao.findByUsernameAndPassword(username, password);
-
-			System.out.println("\n"+username + ": " + password);
-
+			
 			if (loggedInUser == null) {
 				resp.setStatus(401); // Unauthorized status code
 				return;
 			} else {
 				resp.setStatus(201);
-				System.out.println("\n\n:: Inside Login DoPost :: Status Code 201 ::");
 				req.getSession(true).setAttribute("user", loggedInUser);
 				resp.getWriter().write(om.writeValueAsString(loggedInUser));
 				System.out.println(om.writeValueAsString(loggedInUser));
@@ -62,8 +58,6 @@ public class AuthServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if ("/ExpenseReimbursement/login".equals(req.getRequestURI())) {
 			String json = om.writeValueAsString(req.getSession(false).getAttribute("user"));
-			System.out.println("\n\n:: Inside Login DoGet ::");
-			System.out.println(json);
 			resp.addHeader("content-type", "application/json");
 			resp.getWriter().write(json);
 		}

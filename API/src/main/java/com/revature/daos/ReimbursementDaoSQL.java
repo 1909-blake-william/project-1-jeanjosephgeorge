@@ -28,11 +28,8 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 		long rsReimbSubmitted = rs.getLong("reimb_submitted");
 		long rsReimbResolved = rs.getLong("reimb_resolved");
 		String rsReimbDescription = rs.getString("reimb_description");
-		System.out.println("Inside Extract Reimbursemnt");
 		String rsReimbAuthor = findUsername(rs.getInt("reimb_author"));
-		System.out.println("reimb author is: " + rsReimbAuthor);
 		String rsReimbResolver = findUsername(rs.getInt("reimb_resolver"));
-		System.out.println("reimb resolver is: " + rsReimbResolver);
 		String rsReimbStatus = findStatus(rs.getInt("reimb_status_id"));
 		String rsReimbType = findType(rs.getInt("reimb_type_id"));
 		return new Reimbursement(rsReimbId, rsReimbAmount, rsReimbSubmitted, rsReimbResolved, rsReimbDescription, null,
@@ -46,10 +43,8 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
-			System.out.println("Inside findUserId");
 			rs.next();
 			int uId = rs.getInt("userId");
-			System.out.println(uId);
 			return uId;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,17 +61,12 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-
-			System.out.println("Inside findUsername X");
 			rs.next();
 			String username = rs.getString("username");
-			System.out.println("Username X:" + username);
 			return username;
 		} catch (SQLException e) {
-			System.out.println("EMPTY Name");
-			// e.printStackTrace();
-			// System.out.println(e.getMessage());
-			return null;
+			String username = "";
+			return username;
 		}
 	}
 
@@ -207,11 +197,9 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 			String sql = "SELECT * FROM ers_reimbursement WHERE reimb_author = ?";
 			PreparedStatement ps = c.prepareStatement(sql);
 			int authorId = findUserId(username);
-			System.out.println(authorId);
 			ps.setInt(1, authorId);
 			ResultSet rs = ps.executeQuery();
 			List<Reimbursement> userReimbursements = new ArrayList<Reimbursement>();
-			System.out.println("Inside Find By User");
 			while (rs.next()) {
 				userReimbursements.add(extractReimbursement(rs));
 			}
@@ -239,7 +227,7 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 	}
 }
 
-//BONUS:
+//BONUS CODE TO SCOUR THE DEPTHS OF QUERIES:
 //ResultSetMetaData rsmd = rs.getMetaData();
 //String name = rsmd.getColumnName(1);
 //System.out.println(name);

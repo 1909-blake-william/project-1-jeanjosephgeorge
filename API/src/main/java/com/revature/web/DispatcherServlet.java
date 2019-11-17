@@ -12,14 +12,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DispatcherServlet extends HttpServlet {
 
+	private static final long serialVersionUID = 1L;
 	private final ObjectMapper mapper = new ObjectMapper();
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		super.service(req, resp);
-		System.out.println("To context param: " + req.getServletContext().getInitParameter("To"));
-
 		resp.addHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
 		resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
 		resp.addHeader("Access-Control-Allow-Headers",
@@ -30,60 +29,48 @@ public class DispatcherServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
-
 		Object response = Dispatcher.dispatch(req, resp);
-		System.out.println("Inside DispatcherServlet");
 		if (response != null) {
-			// Write the JSON Response and return
 			try {
 				resp.getOutputStream().write(mapper.writeValueAsBytes(response));
 				resp.setStatus(201);
 			} catch (IOException e) {
-				// The Collections.singletonMap method I use here is a quick way to marshal a
-				// JSON object
-				// will return something like { "error": "Failed to write Todo as JSON" }
 				resp.getOutputStream().write(mapper
 						.writeValueAsBytes(Collections.singletonMap("error", "Failed to write List of Todos as JSON")));
 			}
 		} else {
-			// Return some 4XX error
+				resp.setStatus(400);
 		}
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
-
 		Object response = Dispatcher.dispatch(req, resp);
 		if (response != null) {
-			// Write the JSON Response and return
 			try {
 				resp.getOutputStream().write(mapper.writeValueAsBytes(response));
+				resp.setStatus(201);
 			} catch (IOException e) {
-				// The Collections.singletonMap method I use here is a quick way to marshal a JSON object
-				// will return something like { "error": "Failed to write Todo as JSON" }
-				resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("error", "Failed to write Todo as JSON")));
+				resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("error", "Failed to write Reimbursement as JSON")));
 			}
 		} else {
-			// Return some 4XX error
+			resp.setStatus(400);
 		}
 	}
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
-
 		Object response = Dispatcher.dispatch(req, resp);
 		if (response != null) {
-			// Write the JSON Response and return
 			try {
 				resp.getOutputStream().write(mapper.writeValueAsBytes(response));
+				resp.setStatus(201);
 			} catch (IOException e) {
-				// The Collections.singletonMap method I use here is a quick way to marshal a JSON object
-				// will return something like { "error": "Failed to write Todo as JSON" }
-				resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("error", "Failed to write Todo as JSON")));
+				resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("error", "Failed to write Reimbursement as JSON")));
 			}
 		} else {
-			// Return some 4XX error
+				resp.setStatus(400);
 		}
 	}
 

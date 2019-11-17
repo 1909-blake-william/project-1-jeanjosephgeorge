@@ -97,10 +97,10 @@ function ViewSubmissions(){
                                         //IF STATUS IS ALREADY APPROVED
                                         if(data.user_role_id == 1 || data.username == reimb.reimb_author || reimb.reimb_status == "Approved" || reimb.reimb_status == "Denied"){
                                             return `
-                                            <tr>
+                                            <tr style="display: table-row" class="${reimb.reimb_status}">
                                                 <th scope="row">${reimb.reimb_id}</th>
                                                 <td>${reimb.reimb_author}</td>
-                                                <td>$ ${reimb.reimb_amount}</td>
+                                                <td>$${reimb.reimb_amount}</td>
                                                 <td>${reimb.reimb_submitted}</td>
                                                 <td>${reimb.reimb_resolved}</td>
                                                 <td>${reimb.reimb_resolver}</td>
@@ -112,10 +112,10 @@ function ViewSubmissions(){
                                             `
                                         } else {
                                             return `
-                                            <tr>
+                                            <tr style="display: table-row" class="${reimb.reimb_status}">
                                                 <th scope="row">${reimb.reimb_id}</th>
                                                 <td>${reimb.reimb_author}</td>
-                                                <td>$ ${reimb.reimb_amount}</td>
+                                                <td>$${reimb.reimb_amount}</td>
                                                 <td>${reimb.reimb_submitted}</td>
                                                 <td>${reimb.reimb_resolved}</td>
                                                 <td>${reimb.reimb_resolver}</td>
@@ -157,10 +157,10 @@ function ViewSubmissions(){
                                     ${data2.map(function(reimb){
                                         if(data.user_role_id == 1 || data.username == reimb.reimb_author){
                                             return `
-                                            <tr>
+                                            <tr style="display: table-row" class="${reimb.reimb_status}">
                                                 <th scope="row">${reimb.reimb_id}</th>
                                                 <td>${reimb.reimb_author}</td>
-                                                <td>${reimb.reimb_amount}</td>
+                                                <td>$${reimb.reimb_amount}</td>
                                                 <td>${reimb.reimb_submitted}</td>
                                                 <td>${reimb.reimb_resolved}</td>
                                                 <td>${reimb.reimb_resolver}</td>
@@ -173,10 +173,10 @@ function ViewSubmissions(){
                                             `
                                         } else {
                                             return `
-                                            <tr>
+                                            <tr style="display: table-row" class="${reimb.reimb_status}">
                                                 <th scope="row">${reimb.reimb_id}</th>
                                                 <td>${reimb.reimb_author}</td>
-                                                <td>$ ${reimb.reimb_amount}</td>
+                                                <td>$${reimb.reimb_amount}</td>
                                                 <td>${reimb.reimb_submitted}</td>
                                                 <td>${reimb.reimb_resolved}</td>
                                                 <td>${reimb.reimb_resolver}</td>
@@ -230,7 +230,6 @@ function AddSubmission(){
             method: "POST",
             headers: {
             "Content-Type": "application/json",
-            // "Access-Control_Allow-Origin": "*"
         },
         body: JSON.stringify({
             reimb_author: username,
@@ -244,10 +243,8 @@ function AddSubmission(){
             if(response.status == 201){
                 window.location.href = "http://127.0.0.1:5500/API/src/main/webapp/viewsubmissions.html";
             } else {
-                // alert("Nope. Try Again.");
                 document.getElementById("expenseForm").reset();
                 window.location.href = "http://127.0.0.1:5500/API/src/main/webapp/viewsubmissions.html";
-
             }
         })
         .then(data => console.log(data))
@@ -280,7 +277,6 @@ function approveRequest(clickId){
             method: "PUT",
             headers: {
             "Content-Type": "application/json",
-            // "Access-Control_Allow-Origin": "*"
         },
         body: JSON.stringify({
             reimb_id: clickId,
@@ -289,30 +285,69 @@ function approveRequest(clickId){
             })
         })
         .then(response => {
-            console.log(response.json());
-            if(response.status == 201){
-                window.location.href = "http://127.0.0.1:5500/API/src/main/webapp/viewsubmissions.html";
-            } else {
-                // alert("Nope. Try Again.");
-                console.log("Update went wrong")
-                document.getElementById("expenseForm").reset();
-                window.location.href = "http://127.0.0.1:5500/API/src/main/webapp/viewsubmissions.html";
-
-            }
+            return response.json();
         })
-        .then(data => console.log(data))
+        .then(data => {
+            if(data == 1){
+                window.location.reload();
+            } else {
+                console.log("Update went wrong");
+                window.location.reload(true);
+            }
+        }   
+            )
         .catch(error => {
             console.error(error);
         });
     })
     .catch(error => {
         console.error(error);
-    })};
-
-
+    });
 }
 
-function denyRequest(clickId){
-    alert('Deny '+clickId);
 
+
+function denyRequest(clickId){
+    fetch("http://localhost:8080/ExpenseReimbursement/login",{
+        credentials: "include",
+        headers:{"Content-Type":"application/json"}
+    })
+    .then(response => {return response.json();})
+    .then(data => {
+        console.log(data);
+        let username = data.username;
+    
+        //SECOND CALL TO PUT DATA SPECIFIC TO USER
+        fetch("http://localhost:8080/ExpenseReimbursement/api", {
+            credentials:"include",
+            method: "PUT",
+            headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            reimb_id: clickId,
+            reimb_resolver: username,
+            reimb_status: "Denied",
+            })
+        })
+        .then(response => {
+            console.log(response);
+            return response.json();
+        })
+        .then(data => 
+            {   console.log(data)
+                if(data == 1){
+                    window.location.reload(true);
+                } else {
+                    console.log("Update went wrong")
+                    window.location.reload(true);   
+                }}
+            )
+        .catch(error => {
+            console.error(error);
+        });
+    })
+    .catch(error => {
+        console.error(error);
+    });
 }

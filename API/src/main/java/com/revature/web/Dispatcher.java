@@ -23,7 +23,6 @@ public class Dispatcher {
 	}
 
 	public static Object dispatch(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("Inside Dispatcher");
 		if (isGet(request)) {
 			if (request.getRequestURI().startsWith(REIMBURSEMENTS_URI)) {
 				String[] path = request.getRequestURI().split("/");
@@ -39,9 +38,7 @@ public class Dispatcher {
 		} else if (isPost(request)) {
 			if (request.getRequestURI().equals(REIMBURSEMENTS_URI)) {
 				try {
-					System.out.println("Inside Post");
 					Reimbursement reimbursement = mapper.readValue(request.getInputStream(), Reimbursement.class);
-					System.out.println(reimbursement.toString());
 					return reimbursementDao.saveReimbursement(reimbursement);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -51,15 +48,13 @@ public class Dispatcher {
 			if (request.getRequestURI().equals(REIMBURSEMENTS_URI)) {
 				try {
 					Reimbursement reimbursement = mapper.readValue(request.getInputStream(), Reimbursement.class);
-					// return reimbursementDao.changeRequestStatus(reimbursement);
+					return reimbursementDao.changeRequestStatus(reimbursement);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-
 		}
 		return null;
-
 	}
 
 	private static boolean isGet(HttpServletRequest request) {

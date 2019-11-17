@@ -22,7 +22,7 @@ public class Reimbursements extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		super.service(req, resp);
-		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+		resp.addHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
 		resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
 		resp.addHeader("Access-Control-Allow-Headers",
 				"Origin, Methods, Credentials, X-Requested-With, Content-Type, Accept");
